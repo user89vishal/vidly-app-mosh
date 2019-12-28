@@ -1,37 +1,30 @@
-import React from "react";
+import React from 'react';
 import _ from "lodash";
-import propTypes from "prop-types";
+import PropTypes from "prop-types";
 
-const pagination = props => {
-  const { itemsCount, pageSize, onPageChange, currentPage } = props;
-  const pageCount = Math.ceil(itemsCount / pageSize);
-
-  if (pageCount === 1) return null;
-  const pages = _.range(1, pageCount + 1);
-
+const Pagination = props => {
+  
+  const {itemCount, pageSize, onPageChange, currentPage } = props;
+  const pageCount = Math.ceil(itemCount / pageSize);
+  if(pageCount === 1) return null;
+  const pages = _.range(1,pageCount + 1);
+  //{console.log("itemCount = "+itemCount+" PageSize = "+pageSize+" currentPage = "+currentPage)}
   return (
-    <nav>
-      <ul className="pagination">
-        {pages.map(page => (
-          <li
-            key={page}
-            className={currentPage === page ? "page-item active" : "page-item"}
-          >
-            <a className="page-link" onClick={() => onPageChange(page)}>
-              {page}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
+  <nav>
+    <ul className="pagination">
+      { pages.map(page => ( <li key={page} className={ page === currentPage ? "page-item active" : "page-item"} onClick={() => onPageChange(page)}>
+        <a className="page-link">{page}</a>
+      </li>))}     
+    </ul>
+  </nav>
   );
 };
 
-pagination.propTypes = {
-  itemsCount: propTypes.number.isRequired,
-  pageSize: propTypes.number.isRequired,
-  onPageChange: propTypes.func.isRequired,
-  currentPage: propTypes.number.isRequired
-};
+Pagination.propType = {
+  itemCount: PropTypes.number.isRequired, 
+  pageSize: PropTypes.number.isRequired, 
+  onPageChange: PropTypes.func.isRequired, 
+  currentPage: PropTypes.number.isRequired
+}
 
-export default pagination;
+export default Pagination;
