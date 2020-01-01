@@ -1,31 +1,42 @@
 import React, { Component } from 'react';
 
-//column : array(title)
-//sortColumn object 
-//onSort()
-
 class TableHeader extends Component {
-    
+
     raisSort = path =>{
-        const sortColumn = { ...this.props.sortColumn };
-        if (sortColumn.path === path) {
+        const sortColumn = {...this.props.sortColumn};
+        if(sortColumn.path === path)
           sortColumn.order = sortColumn.order === "asc" ? "desc" : "asc";
-        } else {
-          sortColumn.path = path;
-          sortColumn.order = "asc";
+        else{
+           sortColumn.path = path;
+           sortColumn.order = "asc"
         }
-        this.props.OnSort(sortColumn);
+        this.props.onSort(sortColumn);
+      }
+
+    renderSortIcon = column =>{
+        // console.log(this.props.sortColumn);  
+        const { sortColumn } = this.props;
+        if(column.path !== sortColumn.path) return null;
+        if( sortColumn.order === 'asc' ) return <i className="fa fa-sort-asc"></i>
+        return <i className="fa fa-sort-desc"></i>
     }
 
     render() { 
         return ( 
-        <thead>
-            <tr>
-                {this.props.columns.map(column => (
-                    <th key={column.path || column.key} onClick={() => this.raisSort(column.path)}>{ column.lable }</th>
-                ))}
-            </tr>
-        </thead> );
+            <thead>
+                <tr>
+                    {this.props.columns.map( column => (
+                        <th 
+                            className = "clickable"
+                            key = {column.path || column.key } 
+                            onClick={() => this.raisSort(column.path)}
+                        >
+                            {column.lable} {this.renderSortIcon(column)}
+                        </th>
+                    )) }
+                </tr>
+            </thead>
+         );
     }
 }
  
